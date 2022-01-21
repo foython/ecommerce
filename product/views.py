@@ -1,3 +1,4 @@
+from itertools import product
 import json
 # from urllib import response
 from django.contrib.auth.decorators import login_required
@@ -20,12 +21,13 @@ class IndexView(View):
         return render(request, 'home.html', context)
 
 
-class QuickView(View):
+class DetailsView(View):
     def get(self, request, id):
-        item = Product.objects.get(id=id)
-        context = {'item': item}
+        item = Product.objects.get(pk=id)
+        images = item.multi_images.all()
+        context = {'item': item, 'images': images}
         print(item)
-        return render(request, 'home.html', context)
+        return render(request, 'product-details.html', context)
 
 
 @login_required()
@@ -60,10 +62,10 @@ def get_context_data(self):
 
 class ProductAPI(APIView):
 
-    def get(self, request, pk=None, format=None):
-        id = pk
-        if id is not None:
-            product = Product.objects.get(id=id)
+    def get(self, request, id=None, format=None):
+        pk = id
+        if pk is not None:
+            product = Product.objects.get(pk=pk)
             serializer = ProductSerializer(product)
             return Response(serializer.data)
 

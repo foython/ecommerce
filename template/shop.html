@@ -32,7 +32,7 @@
                                             </div>
                                             <h5 class="price">${{product.price}} <span>$130</span></h5>
                                             <p>{{product.information}}</p>
-                                            <a href="#">View Full Product Details</a>
+                                            <a href="{%url 'details' product.id%}">View Full Product Details</a>
                                         </div>
                                         <!-- Add to Cart Form -->
                                         <form class="cart" method="post">
