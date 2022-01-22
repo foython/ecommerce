@@ -16,7 +16,7 @@ from rest_framework.response import Response
 
 class IndexView(View):
     def get(self, request):
-        allproduct = Product.objects.all()
+        allproduct = Product.objects.all().order_by('-id')
         context = {'product': allproduct}
         return render(request, 'home.html', context)
 
@@ -24,8 +24,9 @@ class IndexView(View):
 class DetailsView(View):
     def get(self, request, id):
         item = Product.objects.get(pk=id)
+        filter = Product.objects.filter(main_category__name=item.main_category)
         images = item.multi_images.all()
-        context = {'item': item, 'images': images}
+        context = {'item': item, 'images': images, 'filter': filter, }
         print(item)
         return render(request, 'product-details.html', context)
 
