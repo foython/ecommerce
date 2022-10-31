@@ -17,7 +17,7 @@ const csrftoken = getCookie('csrftoken');
 
 
 
-document.addEventListener('DOMContentLoaded', ()=>{
+    document.addEventListener('DOMContentLoaded', ()=>{
     document.querySelector('#id_main_category').addEventListener('change',function(){
     let main_id = document.querySelector('#id_main_category').value;
     if (main_id != null){

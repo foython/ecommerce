@@ -1,6 +1,4 @@
-from itertools import product
 import json
-# from urllib import response
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.views import View
@@ -24,7 +22,7 @@ class IndexView(View):
 class DetailsView(View):
     def get(self, request, id):
         item = Product.objects.get(pk=id)
-        filter = Product.objects.filter(main_category__name=item.main_category)
+        filter = Product.objects.filter(main_category__name=item.main_category).order_by('?')
         images = item.multi_images.all()
         context = {'item': item, 'images': images, 'filter': filter, }
         print(item)
@@ -55,10 +53,10 @@ class FilterShopView(ListView):
         return Product.objects.filter(sub_category__name=self.kwargs['name'])
 
 
-def get_context_data(self):
+'''def get_context_data(self):
     image_list = ProductImage.objects.all()
     context = {'image_list': image_list}
-    return context
+    return context'''
 
 
 class ProductAPI(APIView):
