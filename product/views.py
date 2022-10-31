@@ -4,11 +4,13 @@ from django.shortcuts import render
 from django.views import View
 from .models import MainCategory, Product, ProductImage
 from django.http import JsonResponse
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from rest_framework.views import APIView
 from .serializers import ProductSerializer
 from rest_framework.response import Response
-
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
+import json
 
 # Create your views here.
 
@@ -71,3 +73,26 @@ class ProductAPI(APIView):
         product = Product.objects.all()
         serializer = ProductSerializer(product, many=True)
         return Response(serializer.data)
+
+
+
+def PriceFilter(request):
+    if request.method == 'POST':
+        range = json.loads(request.body)# dictionary
+        if range is not None:
+            minValue = int(range.get('min'))
+            maxValue = int(range.get('max'))
+            print(minValue)
+            pricefilter = Product.objects.filter(price__range=(minValue, maxValue))
+            product = {pp.name: pp.id for pp in pricefilter}
+            # product = list(pricefilter)
+            # product = json.dumps(pricefilter)
+            print(pricefilter)
+            
+            return JsonResponse(data = product, safe = False)
+
+
+def test(request):
+    return HttpResponse('hello world')
+
+
