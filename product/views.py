@@ -11,12 +11,15 @@ from rest_framework.response import Response
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 import json
+from cart.models import Cart
+
 
 # Create your views here.
 
 class IndexView(View):
     def get(self, request):
         allproduct = Product.objects.all().order_by('-id')
+        
         context = {'product': allproduct}
         return render(request, 'home.html', context)
 
@@ -24,10 +27,21 @@ class IndexView(View):
 class DetailsView(View):
     def get(self, request, id):
         item = Product.objects.get(pk=id)
-        filter = Product.objects.filter(main_category__name=item.main_category).order_by('?')
-        images = item.multi_images.all()
-        context = {'item': item, 'images': images, 'filter': filter, }
-        print(item)
+        
+        images = item.multi_images.all()              
+        r_cart = Cart.objects.filter(session=request.session.session_key).values('product_id')   
+        related = Product.objects.filter(main_category__name=item.main_category).exclude(id__in=r_cart).exclude(id=id)
+        print(r_cart)
+        con = False
+        for i in r_cart:
+            if i['product_id'] == item.id:
+                con = True
+                break
+            else:
+                con = False
+
+        context = {'item': item, 'images': images, 'related': related, 'in_cart':con}
+        
         return render(request, 'product-details.html', context)
 
 
@@ -45,6 +59,25 @@ def send_sub(request):
 class ShopView(ListView):
     model = Product
     template_name = 'shop.html'
+    context_object_name = 'products'
+    
+
+    def get_queryset(self):
+        
+        # cart_total = cart
+        
+        cart = Cart.objects.filter(session=self.request.session.session_key).values()
+        product_in_cart = []
+        for item in cart:
+            product_in_cart.append(item['product_id'])
+
+        queryset ={'all_products': Product.objects.all(),
+                   
+                   'cart_items': product_in_cart,
+                   
+        }
+        
+        return queryset
 
 
 class FilterShopView(ListView):
@@ -73,23 +106,6 @@ class ProductAPI(APIView):
         product = Product.objects.all()
         serializer = ProductSerializer(product, many=True)
         return Response(serializer.data)
-
-
-
-def PriceFilter(request):
-    if request.method == 'POST':
-        range = json.loads(request.body)# dictionary
-        if range is not None:
-            minValue = int(range.get('min'))
-            maxValue = int(range.get('max'))
-            print(minValue)
-            pricefilter = Product.objects.filter(price__range=(minValue, maxValue))
-            product = {pp.name: pp.id for pp in pricefilter}
-            # product = list(pricefilter)
-            # product = json.dumps(pricefilter)
-            print(pricefilter)
-            
-            return JsonResponse(data = product, safe = False)
 
 
 def test(request):

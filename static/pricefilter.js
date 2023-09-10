@@ -1,25 +1,12 @@
-function getCookie(name) {
-  let cookieValue = null;
-  if (document.cookie && document.cookie !== '') {
-      const cookies = document.cookie.split(';');
-      for (let i = 0; i < cookies.length; i++) {
-          const cookie = cookies[i].trim();
-          // Does this cookie string begin with the name we want?
-          if (cookie.substring(0, name.length + 1) === (name + '=')) {
-              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-              break;
-          }
-      }
-  }
-  return cookieValue;
-}
-const csrftoken = getCookie('csrftoken');
+
 
 document.addEventListener('DOMContentLoaded', ()=>{
 
   document.querySelectorAll("span.ui-slider-handle, div.slider-range-price").forEach(function(span) {
     span.onclick = function(){
       var range = document.querySelector(".range-price").innerHTML;
+      // var price = document.querySelector('.product-price').innerHTML;
+      // console.log(price)
       if (range != null){
         var ar = range.split(' ');
         var newar = [];
@@ -28,36 +15,32 @@ document.addEventListener('DOMContentLoaded', ()=>{
             var item = ar[i].substring(1);
               newar.push(item);
             }
-        var minValue = newar[0];
-        var maxValue = newar[1];
-        
+        var minValue = Number(newar[0]);
+        var maxValue = Number(newar[1]); 
       }
       }
-      
-      
-      console.log(minValue);
-      console.log(maxValue);
-      var rangedata = {min: minValue, max: maxValue};
-      var url = 'filter';
 
-      fetch(url, {
-        method: 'POST',
-        headers:{
-          'Content-Type': 'application/json',
-          'X-CSRFToken': csrftoken, //Necessary to work with request.is_ajax()
+      console.log(minValue, maxValue)
+      // document.querySelectorAll('.single_gallery_item').style.display="block";
+      document.querySelectorAll('.single_gallery_item').forEach(function(item){
+        
+        var price = item.querySelector('.product-price').innerHTML;
+        // console.log(item)
+        price = Number(price.substring(1));
+        var displayType = item.style.display;
+        console.log(typeof(displayType))
+
+        if ( (price >= minValue || price <= maxValue) && displayType == 'none' ){
+          item.style.display= "block";
+        }
+
+        if (price <= minValue || price >= maxValue){
+          item.style.display="none";
           
-        },
-        body: JSON.stringify(rangedata) 
-      })
-      .then((response)=>{
-        return response.json()
-    })
-      .then(data => {
-        console.log('Success:', data);
-        console.log(Object.values(data));
-      });
-      
-    }
-    
+        }                      
+          
+        console.log(price);
+      })      
+    }    
   });
 });
