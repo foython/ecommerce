@@ -8,7 +8,6 @@ def get_cart_total(request):
     
     product_in_cart = []
     for item in cart:
-        product_in_cart.append(item['product_id'])
-    print(product_in_cart)
-   
+        product_in_cart.append(item['product_id'])  
+         
     return {'cart_total': cart_total, 'cart': Cart.objects.filter(session=request.session.session_key), 'cart_items': product_in_cart}

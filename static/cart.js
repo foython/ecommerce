@@ -15,10 +15,8 @@ function getCookie(name) {
   }
   const csrftoken = getCookie('csrftoken');
   
-  function filter(){
-    
-  }
- 
+  
+   
   document.addEventListener('DOMContentLoaded', ()=>{
     document.querySelector('.qty-plus').onclick = ()=>{
       var effect = document.getElementById('qty'); 
@@ -31,8 +29,7 @@ function getCookie(name) {
 
     document.querySelector('.qty-minus').onclick = ()=>{
       var effect = document.getElementById('qty'); 
-      var qty = effect.value; 
-      console.log(qty)
+      var qty = effect.value;      
       if( !isNaN( qty ) && qty > 1 ){
       effect.value--;       
     }     
@@ -47,7 +44,7 @@ function getCookie(name) {
   });
     
 
-    document.querySelector('.cart-submit').onclick = ()=>{
+    document.querySelector('#addcart').onclick = ()=>{
         var effect = document.getElementById('qty');        
         var qty = effect.value;
         var productId = Number(document.querySelector('.product_id').innerText);
@@ -85,17 +82,17 @@ function getCookie(name) {
         
        }
         return response.json()
-    })
+      })
       .then(data => {        
         console.log('Success:', data);        
         console.log(Object.values(data));
         console.log(data);           
       });
 
-      } 
-    }   
+    } 
+  }   
 
-  })
+})
 
     
     

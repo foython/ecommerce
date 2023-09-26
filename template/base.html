@@ -119,9 +119,9 @@
                                         <ul class="cart-list">
                                             {% for product in cart %}
                                             <li>
-                                                <a href="#" class="image"><img src="{{product.product.image.url}}" class="cart-thumb" alt=""></a>
+                                                <a href="{% url 'details' product.product.id %}" class="image"><img src="{{product.product.image.url}}" class="cart-thumb" alt=""></a>
                                                 <div class="cart-item-desc">
-                                                    <h6><a href="#">{{product.product.name}}</a></h6>
+                                                    <h6><a href="{%url 'details' product.product.id%}">{{product.product.name}}</a></h6>
                                                     <p>{{product.quantity}} - <span class="price">${{product.product.price}}</span></p>
                                                 </div>
                                                 <span class="dropdown-product-remove"><i class="icon-cross"></i></span>
@@ -177,7 +177,7 @@
                                                     <a class="dropdown-item" href="{%url 'checkout'%}">Checkout</a>
                                                 </div>
                                             </li>
-                                            <li class="nav-item"><a class="nav-link" href="#">Dresses</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="{%url 'shop'%}">Shop</a></li>
                                             <li class="nav-item"><a class="nav-link" href="#"><span class="karl-level">hot</span> Shoes</a></li>
                                             <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
                                         </ul>
@@ -214,7 +214,8 @@
             </div>
         </section>
         <!-- ****** Top Discount Area End ****** -->
-
+        <p hidden class="product_size"></p>
+        <p hidden class="session_id">{{request.session.session_key}}</p> 
       
                     {% block content %}
                     <!-- Single gallery Item Start -->

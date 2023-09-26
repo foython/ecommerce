@@ -35,13 +35,47 @@ def addtocart(request):
             # print(pricefilter)
             # items = Cart.objects.filter(session=session_key).values
             # print(items)
-            item ={'response': 200}
-            items = json.dumps(item)
-            return JsonResponse(data = items, safe = False)
+            item ={'id': cart_item.product.id, 'quantity': cart_item.quantity, 'size': cart_item.size, 'total': cart_item.total}
+            
+            return JsonResponse(data = item, safe = False)
 
 
-def remove_cart(request, id):
-    cart = Cart.objects.filter(session=request.session.session_key)
-    obj = cart.get(product__id=id)
-    obj.delete()
-    return redirect('details', id=id)
+def remove_cart(request, id=None):
+    if id:
+        try:
+            cart = Cart.objects.filter(session=request.session.session_key)
+            obj = cart.get(product__id=id)
+            obj.delete()
+            return redirect('details', id=id)
+        except:
+            return redirect('details', id=id)
+    else:
+        cart = Cart.objects.filter(session=request.session.session_key)        
+        cart.delete()
+        return redirect('cart')
+    
+
+def update_cart(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        product_id = data.get('productId')
+        cart = Cart.objects.filter(session=request.session.session_key)
+        action = data.get('action')
+        if action == 'minus':
+            item = cart.get(product__id = product_id)
+            item.quantity = item.quantity - 1
+            item.save()
+            if item.quantity < 1:
+                item.delete()
+                item = {'id': item.product.id, 'quantity': item.quantity}           
+                return JsonResponse(data = item, safe = False)
+            else:                     
+                item = {'id': item.product.id, 'quantity': item.quantity}           
+                return JsonResponse(data = item, safe = False)
+        if action == 'add':
+            item = cart.get(product__id = product_id)
+            item.quantity = item.quantity + 1
+            item.save()          
+            item = {'id': item.product.id, 'quantity': item.quantity}           
+            return JsonResponse(data = item, safe = False)
+            

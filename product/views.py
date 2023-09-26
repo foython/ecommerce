@@ -18,21 +18,20 @@ from cart.models import Cart
 
 class IndexView(View):
     def get(self, request):
-        allproduct = Product.objects.all().order_by('-id')
-        
+        allproduct = Product.objects.all().order_by('-id')        
         context = {'product': allproduct}
         return render(request, 'home.html', context)
 
 
 class DetailsView(View):
     def get(self, request, id):
-        item = Product.objects.get(pk=id)
-        
+        item = Product.objects.get(pk=id)        
         images = item.multi_images.all()              
         r_cart = Cart.objects.filter(session=request.session.session_key).values('product_id')   
         related = Product.objects.filter(main_category__name=item.main_category).exclude(id__in=r_cart).exclude(id=id)
-        print(r_cart)
+       
         con = False
+
         for i in r_cart:
             if i['product_id'] == item.id:
                 con = True
@@ -62,27 +61,16 @@ class ShopView(ListView):
     context_object_name = 'products'
     
 
-    def get_queryset(self):
-        
-        # cart_total = cart
-        
+    def get_queryset(self):        
         cart = Cart.objects.filter(session=self.request.session.session_key).values()
-        product_in_cart = []
-        for item in cart:
-            product_in_cart.append(item['product_id'])
-
-        queryset ={'all_products': Product.objects.all(),
-                   
-                   'cart_items': product_in_cart,
-                   
-        }
-        
-        return queryset
+               
+        return Product.objects.all() 
 
 
 class FilterShopView(ListView):
     model = Product
     template_name = 'shop.html'
+    context_object_name = 'products'
 
     def get_queryset(self):
         return Product.objects.filter(sub_category__name=self.kwargs['name'])
