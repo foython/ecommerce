@@ -71,16 +71,16 @@ function getCookie(name) {
         body: JSON.stringify(data) 
       })
       .then((response)=>{       
-       if(response.status === 200 ){
-        var dis = document.querySelector('.cart-submit');
-        dis.style.setProperty("display", "none", "important");
-        document.querySelector('.btn-danger').style.setProperty("display", "block", "important");
+        if(response.status === 200 ){
+          var dis = document.querySelector('.cart-submit');
+          dis.style.setProperty("display", "none", "important");
+          document.querySelector('#addedcart').style.setProperty("display", "block", "important");
 
-        effect = document.querySelector('.cart_quantity');
-        cartItem = effect.innerText;        
-        effect.innerText++;     
-        
-       }
+          effect = document.querySelector('.cart_quantity');
+          cartItem = effect.innerText;        
+          effect.innerText++;     
+          
+        }
         return response.json()
       })
       .then(data => {        

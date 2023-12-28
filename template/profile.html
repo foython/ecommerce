@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{%block content%}
+<br>
+<br>
+{%for order in orders%}
+
+<div class="col-12">
+    <div class="card border-info mb-3">
+        <table class="table table-striped">
+            <thead class="thead-light p-2 bg-light border">
+                <tr>
+                    <th>Order Id</th>
+                    <th>Payment Details</th>
+                    <th>Delivery Address</th>
+                    <th>Delivery Status</th>
+                    <th>Order Status</th>
+                    <th>Order Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <td>{{ order.id}}</td>
+                <td>{{order.payment}}</td>
+                <td>{{order.address}}</td>
+                <td>{{order.delivery}}</td>
+                <td>{{order.status}}</td>
+                <td>{{order.total}}</td>
+            </tbody>
+        </table>      
+
+        <div class="cart_area clearfix">
+            <div class="col-12">
+                <div class="cart-table clearfix">
+                    <h5 class="text-center">Order Items</h5>
+                    <table class="table ">
+                        <thead>            
+                            <tr>                
+                                <th>Product</th>                
+                                <th>Size</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>                        
+                            </tr>
+                        </thead>
+                        <tbody>                                   
+                            {%for item in items%}
+                            {%for i in item.order.all %}
+                            {% if order.id == i.id%}
+                            <tr class="cart-item">                                                       
+                                <td class="cart_product_img d-flex align-items-center" >
+                                    <a href="{% url 'details' item.product.id %}"><img src="{{item.product.image.url}}" alt="Product"></a>
+                                    <h6>{{item.product.name}}</h6>
+                                </td>                        
+                                <td class="size"><span>{{item.size}}</span></td>
+                                <td class="price"><span>${{item.product.price}}</span></td>
+                                <td class="price"><span>{{item.quantity}}</span></td>                
+                                <td class="total_price"><span>${{item.sub_total}}</span></td>                        
+                            </tr>
+                            {%endif%}
+                            {%endfor%}                                    
+                            {%endfor%}            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{%endfor%}
+<br>
+
+{%endblock%}

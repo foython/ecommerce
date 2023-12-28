@@ -10,7 +10,7 @@ class ProductImageAdmin(admin.StackedInline):
 
 class SizeandQuantityAdmin(admin.StackedInline):
     model = SizeandQuantity
-    extra = 1
+    
 
 
 @admin.register(Product)
@@ -30,9 +30,13 @@ class ProductAdmin(admin.ModelAdmin):
 class ProductImageAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(SizeandQuantity)
-class SizeandQuantityAdmin(admin.ModelAdmin):
-    pass
+# @admin.register(SizeandQuantity)
+# class SizeandQuantityAdmin(admin.ModelAdmin):
+#     pass
+
+# class SizeandQuantityAdmin(admin.StackedInline):
+#     model = SizeandQuantity
+#     extra = 1
 
 
 admin.site.register(MainCategory)

@@ -50,11 +50,11 @@ class SizeandQuantity(models.Model):
         ('36', '36'),
         ('38', '38'),
         ('40', '40'),
-        ('short', 'S'),
-        ('medium', 'M'),
-        ('large', 'L'),
-        ('extra large', 'XL'),
-        ('extra x large', 'XXL'),
+        ('S', 'short'),
+        ('M', 'medium'),
+        ('L', 'large'),
+        ('XL', 'extra large'),
+        ('XXL', 'extra x large'),
 
     )
     product = models.ForeignKey(Product, on_delete=models.CASCADE)

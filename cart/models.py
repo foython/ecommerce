@@ -9,8 +9,12 @@ class Cart(TimeStampMixin):
     size = models.CharField(max_length=10)
     quantity = models.PositiveIntegerField()
     total = models.FloatField(null=True,blank=True)
+
+    def __str__(self):
+        return f"{self.id} {self.product} {self.size} {self.quantity} {self.total}"
     
 
 def save(self, *args, **kwargs):
    self.total = self.product.price * self.quantity
    super(Cart, self).save(*args, **kwargs)
+

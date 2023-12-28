@@ -87,3 +87,23 @@ function updateReq(data){
                 
     });
 }
+
+
+document.addEventListener('DOMContentLoaded', ()=>{
+    document.querySelector('#customRadio3').checked = true;
+    document.querySelectorAll('.custom-control').forEach(function(item){
+        item.onclick = ()=>{
+            var price = item.dataset.price;            
+            if(price === '0.0'){
+                document.querySelector('#delivery-price').innerHTML = 'Free';
+            }
+            else{
+                document.querySelector('#delivery-price').innerHTML = '$'+price;
+            }             
+            var cartTotal = document.querySelector('.cart-total-chart').dataset.total;           
+            cartTotal = Number(cartTotal);
+            cartTotal += Number(price)
+            document.querySelector('#total-cart').innerHTML = '$'+cartTotal.toFixed(2)
+        }
+    })
+});
