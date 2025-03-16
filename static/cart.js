@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
       var data = { session: session, productId: productId, quantity: qty, size: size };
 
 
-      var url = 'https://ecommerce-j3yd.onrender.com//add/cart';
+      var url = 'https://ecommerce-j3yd.onrender.com/add/cart';
 
       fetch(url, {
         method: 'POST',
