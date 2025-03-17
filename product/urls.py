@@ -10,7 +10,7 @@ urlpatterns = [
     path('productapi/', views.ProductAPI.as_view(), name='productfullapi'),
     path('productapi/<int:id>', views.ProductAPI.as_view(), name='productapi'),
     path('details/<int:id>', views.DetailsView.as_view(), name='details'),    
-    path('test', views.test, name='test'),
+    
 ]
 
  #

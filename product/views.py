@@ -82,6 +82,8 @@ class ShopView(View):
     def get(self, request, name=None):
         if name:
             product_list = Product.objects.filter(sub_category__name=self.kwargs['name']).order_by('-id')
+            if not product_list:
+                product_list = Product.objects.filter(main_category__name=self.kwargs['name']).order_by('-id')
         else:
             product_list = Product.objects.all().order_by('-id')
                
@@ -133,8 +135,5 @@ class ProductAPI(APIView):
         serializer = ProductSerializer(product, many=True)
         return Response(serializer.data)
 
-
-def test(request):
-    return HttpResponse('hello world')
 
 

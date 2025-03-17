@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% block title %} Home | Ecommerce{% endblock %}
 
 {% block content %}
 <script>
@@ -32,7 +33,7 @@
                                 <div class="welcome_slide_text">
                                     <h6 data-animation="bounceInDown" data-delay="0" data-duration="500ms">* Only today we offer free shipping</h6>
                                     <h2 data-animation="fadeInUp" data-delay="500ms" data-duration="500ms">Fashion Trends</h2>
-                                    <a href="#" class="btn karl-btn" data-animation="fadeInUp" data-delay="1s" data-duration="500ms">Shop Now</a>
+                                    <a href="{% url 'shop' %}" class="btn karl-btn" data-animation="fadeInUp" data-delay="1s" data-duration="500ms">Shop Now</a>
                                 </div>
                             </div>
                         </div>
@@ -47,7 +48,7 @@
                                 <div class="welcome_slide_text">
                                     <h6 data-animation="fadeInDown" data-delay="0" data-duration="500ms">* Only today we offer free shipping</h6>
                                     <h2 data-animation="fadeInUp" data-delay="500ms" data-duration="500ms">Summer Collection</h2>
-                                    <a href="#" class="btn karl-btn" data-animation="fadeInLeftBig" data-delay="1s" data-duration="500ms">Check Collection</a>
+                                    <a href="{% url 'shop' %}" class="btn karl-btn" data-animation="fadeInLeftBig" data-delay="1s" data-duration="500ms">Check Collection</a>
                                 </div>
                             </div>
                         </div>
@@ -62,7 +63,7 @@
                                 <div class="welcome_slide_text">
                                     <h6 data-animation="fadeInDown" data-delay="0" data-duration="500ms">* Only today we offer free shipping</h6>
                                     <h2 data-animation="bounceInDown" data-delay="500ms" data-duration="500ms">Women Fashion</h2>
-                                    <a href="#" class="btn karl-btn" data-animation="fadeInRightBig" data-delay="1s" data-duration="500ms">Check Collection</a>
+                                    <a href="{% url 'shop' %}" class="btn karl-btn" data-animation="fadeInRightBig" data-delay="1s" data-duration="500ms">Check Collection</a>
                                 </div>
                             </div>
                         </div>
@@ -79,7 +80,7 @@
                 <div class="catagory-content">
                     <h6>On Accesories</h6>
                     <h2>Sale 30%</h2>
-                    <a href="#" class="btn karl-btn">SHOP NOW</a>
+                    <a href="{% url 'shop' %}" class="btn karl-btn">SHOP NOW</a>
                 </div>
             </div>
             <!-- Single Catagory -->
@@ -87,7 +88,7 @@
                 <div class="catagory-content">
                     <h6>in Bags excepting the new collection</h6>
                     <h2>Designer bags</h2>
-                    <a href="#" class="btn karl-btn">SHOP NOW</a>
+                    <a href="{% url 'shop' %}" class="btn karl-btn">SHOP NOW</a>
                 </div>
             </div>
         </section>
@@ -116,9 +117,9 @@
                     <button class="btn active" data-filter="*">ALL</button>
                     <button class="btn" data-filter=".Woman">WOMAN</button>                    
                     <button class="btn" data-filter=".Man">MAN</button>                    
-                    <button class="btn" data-filter=".access">ACCESSORIES</button>
+                    <button class="btn" data-filter=".Bags">Bags & Purses</button>
                     <button class="btn" data-filter=".Footwear">shoes</button>
-                    <button class="btn" data-filter=".kids">KIDS</button>
+                    <button class="btn" data-filter=".Children">KIDS</button>
                 </div>
             </div>
             
@@ -171,7 +172,7 @@
                             <div class="offer-product-price">
                                 <h3><span class="regular-price">$25.90</span> $15.90</h3>
                             </div>
-                            <a href="#" class="btn karl-btn mt-30">Shop Now</a>
+                            <a href="{% url 'shop' %}" class="btn karl-btn mt-30">Shop Now</a>
                         </div>
                     </div>
                 </div>
@@ -200,7 +201,7 @@
                                 <h6>Nunc pulvinar molestie sem id blandit. Nunc venenatis interdum mollis. Aliquam finibus nulla quam, a iaculis justo finibus non. Suspendisse in fermentum nunc.Nunc pulvinar molestie sem id blandit. Nunc venenatis interdum mollis. </h6>
                                 <div class="testimonial-info d-flex align-items-center justify-content-center">
                                     <div class="tes-thumbnail">
-                                        <img src="{% static 'img/bg-img/tes-1.jpg'%}" alt="">
+                                        <img src="{% static 'img/bg-img/tes-1.jpg' %}" alt="">
                                     </div>
                                     <div class="testi-data">
                                         <p>Michelle Williams</p>
@@ -215,7 +216,7 @@
                                 <h6>Nunc pulvinar molestie sem id blandit. Nunc venenatis interdum mollis. Aliquam finibus nulla quam, a iaculis justo finibus non. Suspendisse in fermentum nunc.Nunc pulvinar molestie sem id blandit. Nunc venenatis interdum mollis. </h6>
                                 <div class="testimonial-info d-flex align-items-center justify-content-center">
                                     <div class="tes-thumbnail">
-                                        <img src="{% static 'img/bg-img/tes-1.jpg'%}" alt="">
+                                        <img src="{% static 'img/bg-img/tes-1.jpg' %}" alt="">
                                     </div>
                                     <div class="testi-data">
                                         <p>Michelle Williams</p>
@@ -230,7 +231,7 @@
                                 <h6>Nunc pulvinar molestie sem id blandit. Nunc venenatis interdum mollis. Aliquam finibus nulla quam, a iaculis justo finibus non. Suspendisse in fermentum nunc.Nunc pulvinar molestie sem id blandit. Nunc venenatis interdum mollis. </h6>
                                 <div class="testimonial-info d-flex align-items-center justify-content-center">
                                     <div class="tes-thumbnail">
-                                        <img src="{% static 'img/bg-img/tes-1.jpg'%}" alt="">
+                                        <img src="{% static 'img/bg-img/tes-1.jpg' %}" alt="">
                                     </div>
                                     <div class="testi-data">
                                         <p>Michelle Williams</p>
