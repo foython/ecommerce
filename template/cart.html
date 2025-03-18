@@ -28,7 +28,7 @@
                                     {% for item in carts %}
                                     <tr class="cart-item">                                        
                                         <td class="cart_product_img d-flex align-items-center" >
-                                            <a href=""><img src="" alt="Product"></a>
+                                            <a href="{% url 'details' item.product.id %}"><img src="{{item.product.image.url}}" alt="Product"></a>
                                             <h6>{{item.product.name}}</h6>
                                         </td>
                                         <td class="size"><span>{{item.size}}</span></td>
