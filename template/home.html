@@ -129,15 +129,31 @@
                     <!-- Single gallery Item Start -->                    
                     <div class="col-12 col-sm-6 col-md-4 single_gallery_item {{product.main_category}} wow fadeInUpBig" data-wow-delay="0.2s">
                         <!-- Product Image -->
-                        <div class="product-img">
+                         <div class="product-img" style="height: 550px; overflow: hidden;">
+                            <img src="{{ product.image.url }}" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+                            <div class="product-quicview">
+                                <a href="#" data-toggle="modal" data-target="#quickview-{{forloop.counter}}"><i class="ti-plus"></i></a>
+                            </div>
+                        </div>
+                        <!-- <div class="product-img">
                             <img src="{{product.image.url}}" alt="">
                             <div class="product-quicview">
                                 <a href="#" data-toggle="modal" data-target="#quickview-{{forloop.counter}}"><i class="ti-plus"></i></a>
                             </div>
-                        </div>                        
+                        </div>                         -->
                         <!-- Product Description --> 
                         <div class="product-description">
+                            {% if product.discount%}
+                           <span style="text-decoration: line-through; color: #888;">
+                             ${{ product.price }}
+                            </span>
+                            <span style="color: red; margin-left: 8px;">
+                                ${{ product.discount_price }}
+                            </span>
+                            </h4>
+                            {% else %}
                             <h4 class="product-price">${{product.price}}</h4>
+                            {% endif %}
                             <p>{{product.name}}</p>                                                                              
                             <!-- Add to Cart -->                       
                             {% if product.id in cart_items %}                                                                                

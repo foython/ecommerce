@@ -20,7 +20,7 @@ class CustomUserAdmin(UserAdmin, ImportExportModelAdmin):
 
   fieldsets = (
     (None, {'fields': ('email', 'password', 'first_name', 'last_name')}),
-    ('Permission', {'fields': ('is_active', 'is_admin', 'is_superuser', 'groups', 'user_permissions')})
+    ('Permission', {'fields': ('is_active', 'is_admin', 'is_superuser', 'is_verified', 'groups', 'user_permissions')})
   )
 
   add_fieldsets = (

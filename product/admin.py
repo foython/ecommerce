@@ -41,4 +41,5 @@ class ProductImageAdmin(admin.ModelAdmin):
 
 admin.site.register(MainCategory)
 admin.site.register(SubCategory)
+admin.site.register(SizeandQuantity)
 

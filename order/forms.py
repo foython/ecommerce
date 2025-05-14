@@ -1,9 +1,10 @@
 from django import forms
-from .models import BillingAddress, Payment_details
+from order.models import BillingAddress, Payment_details
 
 country_choice = [
+        ('ban', 'Bangladesh'),
         ('usa', 'United States'),
-        ('uk', 'United Kingdom'),
+        ('uk', 'United Kingdom'),        
         ('ger', 'Germany'),
         ('fra', 'France'),
         ('ind', 'India'),

@@ -5,6 +5,32 @@
 {%block content%}
 <br>
 <br>
+<br><br>
+
+<!-- User Info Section -->
+<div class="col-12 mb-4">
+    <div class="card border-secondary p-3">
+        <h5>User Information</h5>
+        <table class="table table-bordered">
+            <thead class="thead-light">
+                <tr>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Mobile</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ user.first_name }}</td>
+                    <td>{{ user.address_line_1 }}</td>
+                    <td>{{ user.mobile}}</td>
+                    
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 {%for order in orders%}
 
 <div class="col-12">

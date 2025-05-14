@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 function updateReq(data) {
-    var url = 'https://ecommerce-j3yd.onrender.com/update/cart/';
+    var url = 'http://127.0.0.1:8000/update/cart/';
 
     fetch(url, {
         method: 'POST',

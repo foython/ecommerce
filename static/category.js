@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function select_sub(main_id) {
-    url = 'https://ecommerce-j3yd.onrender.com/select_sub';
+    url = 'http://127.0.0.1:8000/select_sub';
     fetch(url, {
         method: 'POST',
         headers: {

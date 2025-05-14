@@ -30,24 +30,26 @@ options = (
     )
 
 p_type =(
-    ('0', 'Paypal'),
     ('1', 'cash on delievery'),
-    ('2', 'credit card'),
-    ('3', 'direct bank transfer'),    
+    ('2', 'SSLCOMMERZ'),
+      
 ) 
 
-class Payment_details(TimeStampMixin):    
-    amount = models.FloatField()
-    payment_type = models.CharField(max_length=32, choices=p_type, default=None, blank=True, null=True)
-    status = models.CharField(max_length=32, choices=options, default=None, blank=True, null=True)
+class Payment_details(TimeStampMixin):          
+    user = models.ForeignKey(CustomUser, null=True, on_delete=models.CASCADE, related_name='pyments')
+    payment_id = models.CharField(max_length=100, null=True, blank=True)
+    payment_method = models.CharField(max_length=100, choices=p_type, default=None, blank=True, null=True)
+    amount_paid = models.CharField(max_length=100, null=True, blank=True)
+    status = models.CharField(max_length=100, null=True, blank=True)
 
 
     def __str__(self):
-       return f'{self.payment_type} {self.status}'
+       return f'{self.payment_method} {self.status}'
 
 
 status = (
     ('pending', 'Pending'),
+    ('completed', 'Completed'),
     ('shipped', 'Shipped'),
     ('delivered', 'Delivered')
 )
@@ -60,6 +62,9 @@ class Order(TimeStampMixin):
     delivery = models.ForeignKey(DeliveryType, on_delete=models.CASCADE)
     status = models.CharField(max_length=16, choices=status)
     total = models.FloatField()
+    
+    def __str__(self):
+       return f'{self.user} {self.status}'
 
 class OrderItem(TimeStampMixin):
     session = models.CharField(max_length=256)

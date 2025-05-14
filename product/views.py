@@ -5,8 +5,6 @@ from django.views import View
 from .models import MainCategory, Product, ProductImage, SizeandQuantity
 from django.http import JsonResponse
 from django.views.generic import ListView, DetailView
-from rest_framework.views import APIView
-from .serializers import ProductSerializer
 from rest_framework.response import Response
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
@@ -22,7 +20,7 @@ from datetime import datetime, timedelta
 
 class IndexView(View):
     def get(self, request):               
-        allproduct = Product.objects.all().order_by('-id')        
+        allproduct = Product.objects.all().order_by('-created_at')        
         related_sizeq = SizeandQuantity.objects.all()
         context = {'products': allproduct, 'product_size': related_sizeq,}
         cooki = request.COOKIES.get('key')
@@ -107,13 +105,13 @@ class ShopView(View):
                      
         
 
-# class FilterShopView(ListView):
-#     model = Product
-#     template_name = 'shop.html'
-#     context_object_name = 'products'
+class FilterShopView(ListView):
+    model = Product
+    template_name = 'shop.html'
+    context_object_name = 'products'
 
-#     def get_queryset(self):
-#         return Product.objects.filter(sub_category__name=self.kwargs['name'])
+    def get_queryset(self):
+        return Product.objects.filter(sub_category__name=self.kwargs['name'])
 
 
 '''def get_context_data(self):
@@ -122,18 +120,18 @@ class ShopView(View):
     return context'''
 
 
-class ProductAPI(APIView):
+# class ProductAPI(APIView):
 
-    def get(self, request, id=None, format=None):
-        pk = id
-        if pk is not None:
-            product = Product.objects.get(pk=pk)
-            serializer = ProductSerializer(product)
-            return Response(serializer.data)
+#     def get(self, request, id=None, format=None):
+#         pk = id
+#         if pk is not None:
+#             product = Product.objects.get(pk=pk)
+#             serializer = ProductSerializer(product)
+#             return Response(serializer.data)
 
-        product = Product.objects.all()
-        serializer = ProductSerializer(product, many=True)
-        return Response(serializer.data)
+#         product = Product.objects.all()
+#         serializer = ProductSerializer(product, many=True)
+#         return Response(serializer.data)
 
 
 
