@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+
+    <!-- Title  -->
+    {% block title %} Edit | Ecommerce {% endblock title %}
+        <!-- ****** Top Discount Area End ****** -->
+        {% block content %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+</form>
+
+{%endblock%}

@@ -31,45 +31,67 @@ def confirm_order(request):
             total = Cart.objects.filter(session=request.COOKIES.get('key')).aggregate(Sum('total'))       
     
             try:        
-                payment_int = Payment_details.objects.create(
-                    user = request.user,                   
-                    payment_method=int(payment_type),
-                    amount_paid=total['total__sum'],
-                    status='pending'
-                )                 
+                                 
                 billing_fm = BillingForm(request.POST)
                 if billing_fm.is_valid():
                     billing_inst = billing_fm.save()
-                    order_inst = Order.objects.create(
-                        user=request.user,
-                        payment = payment_int,
-                        address=billing_inst,
-                        delivery=DeliveryType.objects.get(pk=request.POST['deliveryid']),
-                        status='pending',
-                        total=total['total__sum']
-                    )
-                    
-                    for item in carts:
-                        order_item = OrderItem.objects.create(
-                            session=session_key,                        
-                            product=item.product,
-                            size=item.size,
-                            quantity=item.quantity,
-                            sub_total=item.total
-                        )                     
-                        order_item.order.add(order_inst)
-                        product = SizeandQuantity.objects.get(product__id=item.product.id, size=item.size)
-                        print(product)
-                        product.quantity -= item.quantity
-                        product.save()
+                    if payment_type == '1': 
+                        payment_int = Payment_details.objects.create(
+                        user = request.user,                   
+                        payment_method=int(payment_type),
+                        amount_paid=total['total__sum'],
+                        status='pending'
+                        )
+                        order_inst = Order.objects.create(
+                            user=request.user,
+                            payment = payment_int,
+                            address=billing_inst,
+                            delivery=DeliveryType.objects.get(pk=request.POST['deliveryid']),
+                            status='pending',
+                            total=total['total__sum']
+                        )
                         
-                    if payment_type == '1':    
-                        carts.delete()                        
-                        response = redirect('profile')
-                        response.delete_cookie('key',)                                   
-                        return response
+                        for item in carts:
+                            order_item = OrderItem.objects.create(
+                                session=session_key,                        
+                                product=item.product,
+                                size=item.size,
+                                quantity=item.quantity,
+                                sub_total=item.total
+                            )                     
+                            order_item.order.add(order_inst)
+                            product = SizeandQuantity.objects.get(product__id=item.product.id, size=item.size)
+                            print(product)
+                            product.quantity -= item.quantity
+                            product.save()
+                        
+                            carts.delete()                        
+                            response = redirect('profile')
+                            response.delete_cookie('key',)                                   
+                            return response
                     
-                    elif payment_type == '2':                          
+                    elif payment_type == '2':
+                        order_inst = Order.objects.create(
+                            user=request.user,
+                            # payment = payment_int,
+                            address=billing_inst,
+                            delivery=DeliveryType.objects.get(pk=request.POST['deliveryid']),
+                            status='pending',
+                            total=total['total__sum']
+                        ) 
+                        for item in carts:
+                            order_item = OrderItem.objects.create(
+                                session=session_key,                        
+                                product=item.product,
+                                size=item.size,
+                                quantity=item.quantity,
+                                sub_total=item.total
+                            )                     
+                            order_item.order.add(order_inst)
+                            product = SizeandQuantity.objects.get(product__id=item.product.id, size=item.size)
+                            print(product)
+                            product.quantity -= item.quantity
+                            product.save()                         
                         return redirect('payment')
                   
             except Exception as e:
@@ -169,12 +191,12 @@ def sslc_complete(request, val_id, tran_id):
         payment = Payment_details.objects.create(
             user=user,
             payment_id=val_id,
-            payment_method="SSLCommerz",
+            payment_method=2,
             amount_paid=order.total,
             status="Completed",
         )
 
-        order.status = "Completed"
+        order.status = "completed"
         order.payment = payment
         order.save()
         

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, MainCategory, SubCategory, SizeandQuantity, ProductImage
+from .models import Product, MainCategory, SubCategory, SizeandQuantity, ProductImage, ProductReview
 from .form import ProductForm
 # Register your models here.
 
@@ -42,4 +42,4 @@ class ProductImageAdmin(admin.ModelAdmin):
 admin.site.register(MainCategory)
 admin.site.register(SubCategory)
 admin.site.register(SizeandQuantity)
-
+admin.site.register(ProductReview)

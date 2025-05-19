@@ -3,6 +3,8 @@ from .models import CustomUser
 from django import forms
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from .models import CustomUser
+
 
 
 
@@ -12,10 +14,15 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 #         fields = ["first_name", "last_name", "email", "password1", "password2"]
         
 
-class CustomUserChangeForm(UserChangeForm):
+class CustomUserChangeForm(forms.ModelForm):
     class Meta:
-        model = CustomUser
-        fields = ("first_name", "last_name", "email")
+        model = CustomUser  # or your custom user model
+        fields = ['first_name', 'last_name', 'address_line_1', 'address_line_2', 'city', 'postcode', 'country', 'mobile']  # adjust fields as needed
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)  # Safely remove `user` if passed
+        super().__init__(*args, **kwargs)
+
 
 
 

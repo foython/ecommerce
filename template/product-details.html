@@ -65,14 +65,27 @@
                             <h4 class="price">$ {{item.price}}</h4>
 
                             <p class="available">Available: <span class="text-muted">In Stock</span></p>
+                            
 
-                            <div class="single_product_ratings mb-15">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>                    
+                            {% with avg=item.average_rating|default:0 %}
+                            {% with ""|center:5 as stars %}
+                                <div class="single_product_ratings mb-15">
+                                    {% for _ in stars %}
+                                        {% if forloop.counter <= avg %}
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                        {% elif forloop.counter0 < avg %}
+                                            <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                                        {% else %}
+                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <span>({{ avg|floatformat:1 }}/5)</span>
+                                </div>
+                            {% endwith %}
+                        {% endwith %}
+
+
+                  
                             <div class="widget size mb-50">
                                 <h6 class="widget-title">Size</h6>
                                 <div class="widget-desc">
@@ -193,9 +206,7 @@
                     </div>
                 </div>
             </div>
-        </section>
-        {{item.main_category}}
-        {{size}}
+        </section>        
 
         <script type="text/javascript" src="{% static 'cart.js' %}"></script>
         <!-- <script type="text/javascript" src="{% static 'modalCart.js' %}"></script> -->

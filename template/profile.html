@@ -15,6 +15,7 @@
             <thead class="thead-light">
                 <tr>
                     <th>Name</th>
+                    <th>Email</th>
                     <th>Address</th>
                     <th>Mobile</th>
                     <th>Action</th>
@@ -22,9 +23,11 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>{{ user.first_name }}</td>
-                    <td>{{ user.address_line_1 }}</td>
+                    <td>{{ user.first_name }} {{user.last_name}}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.address_line_1 }}, {{ user.address_line_2 }}, {{ user.city}}, {{ user.country}}</td>
                     <td>{{ user.mobile}}</td>
+                    <td><a href="{% url 'edit' %}" class="text-danger">Edit</a></td>
                     
                 </tr>
             </tbody>
@@ -67,7 +70,8 @@
                                 <th>Size</th>
                                 <th>Price</th>
                                 <th>Quantity</th>
-                                <th>Total</th>                        
+                                <th>Total</th>  
+                                <th>Review</th>                      
                             </tr>
                         </thead>
                         <tbody>                                   
@@ -82,7 +86,8 @@
                                 <td class="size"><span>{{item.size}}</span></td>
                                 <td class="price"><span>${{item.product.price}}</span></td>
                                 <td class="price"><span>{{item.quantity}}</span></td>                
-                                <td class="total_price"><span>${{item.sub_total}}</span></td>                        
+                                <td class="total_price"><span>${{item.sub_total}}</span></td>  
+                                <td class=""><span><a href="{% url 'submit_review' item.product.id %}" class="text-danger">Review</a></span></td>                        
                             </tr>
                             {%endif%}
                             {%endfor%}                                    

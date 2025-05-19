@@ -2,7 +2,7 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.views import View
-from .models import MainCategory, Product, ProductImage, SizeandQuantity
+from .models import MainCategory, Product, ProductImage, SizeandQuantity, ProductReview
 from django.http import JsonResponse
 from django.views.generic import ListView, DetailView
 from rest_framework.response import Response
@@ -14,14 +14,17 @@ from cart.models import Cart
 import random
 import string
 from datetime import datetime, timedelta
+from django.shortcuts import get_object_or_404, redirect
 
 
 # Create your views here.
 
 class IndexView(View):
     def get(self, request):               
-        allproduct = Product.objects.all().order_by('-created_at')        
-        related_sizeq = SizeandQuantity.objects.all()
+        allproduct = Product.objects.filter(
+    sizeandquantity__quantity__gt=0
+).distinct().order_by('-created_at')        
+        related_sizeq = SizeandQuantity.objects.filter(quantity__gt=0)
         context = {'products': allproduct, 'product_size': related_sizeq,}
         cooki = request.COOKIES.get('key')
 
@@ -35,15 +38,14 @@ class IndexView(View):
 
 
 class DetailsView(View):
-    def get(self, request, id):        
+    def get(self, request, id):            
         item = Product.objects.get(pk=id) 
-        sizeq = SizeandQuantity.objects.filter(product__id=id)       
+        sizeq = SizeandQuantity.objects.filter(product__id=id, quantity__gt=0)       
         images = item.multi_images.all()              
         r_cart = Cart.objects.filter(session=request.COOKIES.get('key')).values('product_id')   
         related = Product.objects.filter(main_category__name=item.main_category).exclude(id__in=r_cart).exclude(id=id)
         related_sizeq = SizeandQuantity.objects.all()
-        c_url =  request.build_absolute_uri()
-        print(c_url)
+        c_url =  request.build_absolute_uri()        
 
         con = False
 
@@ -79,16 +81,16 @@ def send_sub(request):
 class ShopView(View):
     def get(self, request, name=None):
         if name:
-            product_list = Product.objects.filter(sub_category__name=self.kwargs['name']).order_by('-id')
+            product_list = Product.objects.filter(sub_category__name=self.kwargs['name'], sizeandquantity__quantity__gt=0).distinct().order_by('-created_at')
             if not product_list:
-                product_list = Product.objects.filter(main_category__name=self.kwargs['name']).order_by('-id')
+                product_list = Product.objects.filter(main_category__name=self.kwargs['name'], sizeandquantity__quantity__gt=0).distinct().order_by('-created_at')
         else:
-            product_list = Product.objects.all().order_by('-id')
+            product_list = Product.objects.filter(sizeandquantity__quantity__gt=0).distinct().order_by('-created_at')
                
         p = Paginator(product_list, 9)         
         page = request.GET.get('page')        
         allproduct = p.get_page(page) 
-        product_size = SizeandQuantity.objects.all()
+        product_size = SizeandQuantity.objects.filter(quantity__gt=0)
         context = { 'products': allproduct, 'p':p, 'product_size': product_size}
         cooki = request.COOKIES.get('key')
         if not cooki:
@@ -134,4 +136,21 @@ class FilterShopView(ListView):
 #         return Response(serializer.data)
 
 
+# from django.contrib.auth.decorators import login_required
+# from django.shortcuts import get_object_or_404, redirect
+# from .models import Product, ProductReview
 
+@login_required
+def submit_review(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    print(product.average_rating)
+    if request.method == "POST":
+        rating = int(request.POST.get("rating", 0))
+        ProductReview.objects.update_or_create(
+            user=request.user,
+            product=product,
+            defaults={"rating": rating}
+        )
+        return redirect('details', id=product.id)
+    
+    return render(request, 'product/review.html', {'product': product})

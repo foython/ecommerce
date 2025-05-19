@@ -19,13 +19,24 @@
                               <div class="col-12 col-lg-7">
                                   <div class="quickview_pro_des">
                                       <h4 class="title">{{product.name}}</h4>
-                                      <div class="top_seller_product_rating mb-15">
-                                          <i class="fa fa-star" aria-hidden="true"></i>
-                                          <i class="fa fa-star" aria-hidden="true"></i>
-                                          <i class="fa fa-star" aria-hidden="true"></i>
-                                          <i class="fa fa-star" aria-hidden="true"></i>
-                                          <i class="fa fa-star" aria-hidden="true"></i>
-                                      </div>
+                                     
+                                      {% with avg=product.average_rating|default:0 %}
+                                        {% with ""|center:5 as stars %}
+                                            <div class="top_seller_product_rating mb-15">
+                                                {% for _ in stars %}
+                                                    {% if forloop.counter <= avg %}
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                    {% elif forloop.counter0 < avg %}
+                                                        <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                                                    {% else %}
+                                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                    {% endif %}
+                                                {% endfor %}
+                                                <span>({{ avg|floatformat:1 }}/5)</span>
+                                            </div>
+                                        {% endwith %}
+                                    {% endwith %}
+
                                       <h5 class="price">${{product.price}} {% if product.discount%}<span>$130</span>{%endif%}</h5>
                                       <p>{{product.information}}</p>
                                       <a href="{% url 'details' product.id %}">View Full Product Details</a>

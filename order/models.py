@@ -57,7 +57,7 @@ status = (
 
 class Order(TimeStampMixin):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    payment = models.ForeignKey(Payment_details, on_delete=models.CASCADE)    
+    payment = models.ForeignKey(Payment_details, on_delete=models.CASCADE, null=True, blank=True)    
     address = models.ForeignKey(BillingAddress, on_delete=models.CASCADE)
     delivery = models.ForeignKey(DeliveryType, on_delete=models.CASCADE)
     status = models.CharField(max_length=16, choices=status)

@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.tokens import default_token_generator
 from django.shortcuts import redirect, render
 from django.utils.http import urlsafe_base64_decode
-from accounts.forms import CustomUserRegistrationForm
+from accounts.forms import CustomUserRegistrationForm, CustomUserChangeForm
 from accounts.models import CustomUser
 from order.models import Order, OrderItem
 from accounts.utils import send_password_reset_email, send_verification_email
@@ -63,6 +63,18 @@ def user_profile(request):
         response.set_cookie('key', cookie_value, expires=datetime.utcnow()+timedelta(days=15))
         return response
     return render(request, 'profile.html', context)
+
+
+@login_required
+def edit_info(request):  
+    if request.method == 'POST':
+        form = CustomUserChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()  
+            return redirect('profile')
+    form = CustomUserChangeForm(instance=request.user)
+    return render(request, 'accounts/edit_info.html', {'form': form})
+      
 
 
 # @login_required
