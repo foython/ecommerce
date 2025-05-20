@@ -60,15 +60,15 @@ def confirm_order(request):
                                 sub_total=item.total
                             )                     
                             order_item.order.add(order_inst)
-                            product = SizeandQuantity.objects.get(product__id=item.product.id, size=item.size)
+                            product = SizeandQuantity.objects.filter(product__id=item.product.id, size=item.size).last()
                             print(product)
                             product.quantity -= item.quantity
                             product.save()
                         
-                            carts.delete()                        
-                            response = redirect('profile')
-                            response.delete_cookie('key',)                                   
-                            return response
+                        carts.delete()                        
+                        response = redirect('profile')
+                        response.delete_cookie('key',)                                   
+                        return response
                     
                     elif payment_type == '2':
                         order_inst = Order.objects.create(
@@ -88,14 +88,14 @@ def confirm_order(request):
                                 sub_total=item.total
                             )                     
                             order_item.order.add(order_inst)
-                            product = SizeandQuantity.objects.get(product__id=item.product.id, size=item.size)
+                            product = SizeandQuantity.objects.filter(product__id=item.product.id, size=item.size).last()
                             print(product)
                             product.quantity -= item.quantity
                             product.save()                         
                         return redirect('payment')
                   
             except Exception as e:
-                return HttpResponse['Error Occurred: ' + str(e)]
+                return HttpResponse('Error Occurred: ' + str(e))
                    
                         
         else:
