@@ -142,8 +142,7 @@ class FilterShopView(ListView):
 
 @login_required
 def submit_review(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
-    print(product.average_rating)
+    product = get_object_or_404(Product, id=product_id)    
     if request.method == "POST":
         rating = int(request.POST.get("rating", 0))
         ProductReview.objects.update_or_create(

@@ -60,8 +60,7 @@ def confirm_order(request):
                                 sub_total=item.total
                             )                     
                             order_item.order.add(order_inst)
-                            product = SizeandQuantity.objects.filter(product__id=item.product.id, size=item.size).last()
-                            print(product)
+                            product = SizeandQuantity.objects.filter(product__id=item.product.id, size=item.size).last()                            
                             product.quantity -= item.quantity
                             product.save()
                         
@@ -88,8 +87,7 @@ def confirm_order(request):
                                 sub_total=item.total
                             )                     
                             order_item.order.add(order_inst)
-                            product = SizeandQuantity.objects.filter(product__id=item.product.id, size=item.size).last()
-                            print(product)
+                            product = SizeandQuantity.objects.filter(product__id=item.product.id, size=item.size).last()                            
                             product.quantity -= item.quantity
                             product.save()                         
                         return redirect('payment')
