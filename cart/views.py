@@ -6,6 +6,7 @@ from product.models import Product
 from delivery.models import DeliveryType
 from django.db.models import Sum
 from order.forms import BillingForm, PaymentForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -15,7 +16,7 @@ def cart(request):
     delivery = DeliveryType.objects.all().order_by('-id')    
     return render(request, 'cart.html', {'carts':carts, 'delivery': delivery})
 
-
+@login_required(login_url='login')
 def checkout(request):
     session = request.COOKIES.get('key')
     if request.method == 'POST':

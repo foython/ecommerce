@@ -1,20 +1,26 @@
 {%extends 'base.html'%}
 {%load static%}
-{%block title%}Karl - Fashion Ecommerce | Details{%endblock%}
+{%block title%}Review{%endblock%}
 {%block content%}
 
-<form id="rating-form" method="POST" action="{% url 'submit_review' product.id %}">
+<form id="rating-form" method="POST" action="{% url 'submit_review' product.id %}" class="text-center my-5">
     {% csrf_token %}
-    <div class="single_product_ratings mb-15">
+    
+    <div class="single_product_ratings mb-4">
         {% with ''|center:5 as range %}
             {% for _ in range %}
-                <i class="fa fa-star-o rating-star" data-value="{{ forloop.counter }}"></i>
+                <i class="fa fa-star-o rating-star mx-2" style="font-size: 2rem; cursor: pointer; color: #f7004e;" data-value="{{ forloop.counter }}"></i>
             {% endfor %}
         {% endwith %}
     </div>
+
     <input type="hidden" name="rating" id="rating-value">
-    <button type="submit" class="btn btn-sm btn-success mt-2">Submit Review</button>
+    
+    <button type="submit" class="btn btn-lg mt-2" style="background-color: #f7004e; border-color: #f7004e; color: #fff;">
+        Submit Review
+    </button>
 </form>
+
 
 
 <script>

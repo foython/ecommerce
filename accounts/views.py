@@ -24,30 +24,35 @@ def register(request):
             messages.info(request, "We have sent you an verfication email")
             return redirect("login")
         # TODO: show form errors in template
-    return render(request, "registration.html", {'form': form})
+    return render(request, "register.html", {'form': form})
 
-def user_login(request):
+
+def user_login(request): 
+    if request.user.is_authenticated:
+        return redirect("profile")
+       
     if request.method == "POST":
         email = request.POST.get("email")
         password = request.POST.get("password")               
+
         user = authenticate(request, email=email, password=password)
         if not user:
             messages.error(request, "Invalid username or password.")
         elif not user.is_verified:
             messages.error(request, "Your email is not verified yet.")
         else:
-            login(request, user)
-            messages.success(request, "You have successfully logged in.")
+            login(request, user)            
             return redirect("profile")
 
-    # TODO: use a form and show form errors in template
     return render(request, "login.html")
+
 
 
 @login_required
 def user_logout(request):
     logout(request)
-    return redirect("login")
+    list(messages.get_messages(request))
+    return redirect('login')
 
 
 @login_required

@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static %}
+
+    <!-- Title  -->
+    {% block title %} Registration | Ecommerce {% endblock title %}
+        <!-- ****** Top Discount Area End ****** -->
+        {% block content %}
+
+
+
+<div class="checkout_area section_padding_100">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="checkout_details_area p-4 shadow rounded bg-white">
+
+          <div class="cart-page-heading mb-4 text-center">
+            <h4 class="mb-1" style="color: #f7004e;">Create Your Account</h4>
+            <p class="text-muted">Please fill in the details to register</p>
+          </div>
+
+          <form method="post" action="{% url 'signup' %}">
+            {% csrf_token %}
+
+            <!-- First Name -->
+            <div class="form-group">              
+              {{ form.first_name }}
+              {% if form.first_name.errors %}
+                <small class="text-danger">{{ form.first_name.errors.0 }}</small>
+              {% endif %}
+            </div>
+
+            <!-- Last Name -->
+            <div class="form-group">              
+              {{ form.last_name }}
+              {% if form.last_name.errors %}
+                <small class="text-danger">{{ form.last_name.errors.0 }}</small>
+              {% endif %}
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">              
+              {{ form.email }}
+              {% if form.email.errors %}
+                <small class="text-danger">{{ form.email.errors.0 }}</small>
+              {% endif %}
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">              
+              {{ form.password1 }}
+              {% if form.password1.errors %}
+                <small class="text-danger">{{ form.password1.errors.0 }}</small>
+              {% endif %}
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-group">              
+              {{ form.password2 }}
+              {% if form.password2.errors %}
+                <small class="text-danger">{{ form.password2.errors.0 }}</small>
+              {% endif %}
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-group text-center mt-4">
+              <button type="submit" class="btn btn-lg btn-block" style="background-color: #f7004e; color: white;">
+                Register
+              </button>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{%endblock%}

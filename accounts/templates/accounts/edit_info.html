@@ -2,14 +2,83 @@
 {% load static %}
 
     <!-- Title  -->
-    {% block title %} Edit | Ecommerce {% endblock title %}
+    {% block title %} Edit info | Ecommerce {% endblock title %}
         <!-- ****** Top Discount Area End ****** -->
         {% block content %}
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-</form>
+<div class="checkout_area section_padding_100">
+    <div class="container">
+        <div class="row justify-content-center">
 
-{%endblock%}
+            <div class="col-lg-8">
+                <div class="checkout_details_area p-4 shadow rounded bg-white">
+
+                    <div class="cart-page-heading mb-4 text-center">
+                        <h4 class="mb-1">Update Your Information</h4>
+                        <p class="text-muted">Please make sure your address details are up to date.</p>
+                    </div>
+
+                    <form action="{% url 'edit' %}" method="post">
+                        {% csrf_token %}
+                        <div class="form-row">
+
+                            <!-- Row 1 -->
+                            <div class="form-group col-md-6">
+                                <label for="first_name">First Name</label>
+                                {{ form.first_name }}
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="last_name">Last Name</label>
+                                {{ form.last_name }}
+                            </div>
+
+                            <!-- Row 2 -->
+                            <div class="form-group col-md-6">
+                                <label for="address_line_1">Address Line 1</label>
+                                {{ form.address_line_1 }}
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="address_line_2">Address Line 2</label>
+                                {{ form.address_line_2 }}
+                            </div>
+
+                            <!-- Row 3 -->
+                            <div class="form-group col-md-6">
+                                <label for="city">City</label>
+                                {{ form.city }}
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="postcode">Postcode</label>
+                                {{ form.postcode }}
+                            </div>
+
+                            <!-- Row 4 -->
+                            <div class="form-group col-md-6">
+                                <label for="country">Country</label>
+                                {{ form.country }}
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="mobile">Mobile</label>
+                                {{ form.mobile }}
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="form-group col-12 text-center mt-4">
+                                <button type="submit" class="btn btn-lg" style="background-color: #f7004e; color: white;">
+                                    Update Info
+                                </button>
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+   
+     
+     {%endblock%}
