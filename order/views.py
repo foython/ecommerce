@@ -179,7 +179,7 @@ def payment_status(request):
 
 def sslc_complete(request, val_id, tran_id):
     try:           
-        order = Order.objects.filter(user=user).last()
+        order = Order.objects.filter(user=user).last()        
         # user = request.user  
         session_key = request.COOKIES.get('key')              
 
