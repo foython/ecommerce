@@ -191,7 +191,7 @@
                                             <li class="nav-item"><a class="nav-link" href="{% url 'shop' %}">Shop</a></li>
                                             <li class="nav-item"><a class="nav-link" href="{% url 'filtershop' 'Footwear' %}"><span class="karl-level">hot</span> Shoes</a></li>                                                                                       
                                             {% if user.is_authenticated %}
-                                            <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">{{ user.first_name }}</a></li>                                                
+                                            <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>                                                
                                             {% else %}
                                             <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Sign In</a></li>
                                             {% endif %}
